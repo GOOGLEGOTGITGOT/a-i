@@ -1,0 +1,80 @@
+name: Super AI CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build and push ChatGPT
+      uses: docker/build-push-action@v2
+      with:
+        context: ./chatgpt
+        push: true
+        tags: user/chatgpt:latest
+
+    - name: Build and push Gemini
+      uses: docker/build-push-action@v2
+      with:
+        context: ./gemini
+        push: true
+        tags: user/gemini:latest
+
+    - name: Build and push Bard
+      uses: docker/build-push-action@v2
+      with:
+        context: ./bard
+        push: true
+        tags: user/bard:latest
+
+    - name: Build and push Claude
+      uses: docker/build-push-action@v2
+      with:
+        context: ./claude
+        push: true
+        tags: user/claude:latest
+
+    - name: Build and push Copilot
+      uses: docker/build-push-action@v2
+      with:
+        context: ./copilot
+        push: true
+        tags: user/copilot:latest
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run integration tests
+      run: |
+        docker-compose -f docker-compose.yml up -d
+        docker-compose -f docker-compose.yml run test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Deploy Super AI
+      run: |
+        docker-compose -f docker-compose.yml up -d
