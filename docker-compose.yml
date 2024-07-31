@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  chatgpt:
+    image: chatgpt:latest
+    container_name: chatgpt
+    ports:
+      - "5001:5001"
+    environment:
+      - API_KEY=your_chatgpt_api_key
+
+  gemini:
+    image: gemini:latest
+    container_name: gemini
+    ports:
+      - "5002:5002"
+    environment:
+      - API_KEY=your_gemini_api_key
+
+  bard:
+    image: bard:latest
+    container_name: bard
+    ports:
+      - "5003:5003"
+    environment:
+      - API_KEY=your_bard_api_key
+
+  claude:
+    image: claude:latest
+    container_name: claude
+    ports:
+      - "5004:5004"
+    environment:
+      - API_KEY=your_claude_api_key
+
+  copilot:
+    image: copilot:latest
+    container_name: copilot
+    ports:
+      - "5005:5005"
+    environment:
+      - API_KEY=your_copilot_api_key
+
+networks:
+  default:
+    name: super_ai_network
