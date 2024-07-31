@@ -1,0 +1,26 @@
+this is a project where i am trying to bring all the a-i together, so they have someone to talk to when i am not talking to them. 
+import requests
+
+# Replace 'your_token' with your GitHub personal access token
+token = 'your_token'
+headers = {
+    'Authorization': f'token {token}',
+    'Accept': 'application/vnd.github.v3+json'
+}
+
+# Replace 'your_username' with your GitHub username
+url = 'https://api.github.com/user/repos'
+data = {
+    'name': 'AI-Repository',
+    'description': 'A repository for AI projects',
+    'private': False  # Set to True if you want a private repository
+}
+
+response = requests.post(url, headers=headers, json=data)
+
+if response.status_code == 201:
+    print('Repository created successfully!')
+else:
+    print(f'Failed to create repository: {response.status_code}')
+
+# a-i
